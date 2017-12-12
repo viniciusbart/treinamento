@@ -6,7 +6,7 @@ namespace Aula01.Model
     {
         public int Size { get; set; } = 100;
         public string Code { get; set; }
-        public Local()
+        public Local() : this("l1", 100)
         {
         }
         public Local(string code, int size)
@@ -77,7 +77,7 @@ namespace Aula01.Model
 
         public override void Harvest()
         {
-            Console.WriteLine("Harvest Field {0}",Code);
+            Console.WriteLine("Harvest Field {0} - {1}", Code, Culture);
         }
 
     }

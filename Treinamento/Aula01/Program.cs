@@ -30,7 +30,7 @@ namespace Aula01
             Print(b);
             Print(s);
             */
-            Sector sector1 = new Sector("S1", 100);
+            Sector sector1 = new Sector("S1", 1000);
 
             Farm farm1 = new Farm();
             farm1.Code = "FM1";
@@ -39,14 +39,15 @@ namespace Aula01
             block1.Code = "B1";
             block1.Size = 50;
 
-            Field field1 = new Field();
-            field1.Code = "F5";
-            field1.Size = 25;
+            Field field = new Field();
+            field.Code = "F1";
+            field.Size = 10;
+            field.Culture = "Sugar Cane";
 
             Show(sector1);
+            Show(farm1);
             Show(block1);
-
-
+            Show(field);
 
             Console.ReadKey();
         }
