@@ -22,8 +22,8 @@ namespace Aula01
 
         static void Main(string[] args)
         {
-            int i = 10;
-            bool b = true;
+            //int i = 10;
+            //bool b = true;
             //string s = "vini";
             /*
             Print(i);

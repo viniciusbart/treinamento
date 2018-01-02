@@ -14,27 +14,31 @@ namespace Aula02.Model
 
         public decimal Saldo { get; set; }
 
-        private List<Item> _extrato = new List<Item>();
+        protected List<Item> _extrato = new List<Item>();
 
-        public void Depositar(decimal valor)
+        public virtual void Depositar(decimal valor)
         {
             Saldo += valor;
 
             _extrato.Add(new Item()
             {
+                Tipo = TipoItem.Deposito,
                 Data = DateTime.Now,
-                Valor = valor
+                Valor = valor,
+                Saldo = this.Saldo
             });
         }
 
-        public void Sacar(decimal valor)
+        public virtual void Sacar(decimal valor)
         {
             Saldo -= valor;
 
             _extrato.Add(new Item()
             {
+                Tipo = TipoItem.Saque,
                 Data = DateTime.Now,
-                Valor = valor * -1
+                Valor = valor * -1,
+                Saldo = this.Saldo
             });
 
         }
