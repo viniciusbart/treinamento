@@ -12,7 +12,7 @@ namespace Aula02.Model
 
         public int Numero { get; set; } = 1234;
 
-        public decimal Saldo { get; set; }
+        public decimal Saldo { get; protected set; }
 
         protected List<Item> _extrato = new List<Item>();
 

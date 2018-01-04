@@ -10,6 +10,7 @@ namespace Aula02.Model
     {
         Saque = 1,
         Deposito = 2,
-        Imposto = 3
+        Imposto = 3,
+        Juros = 4
     }
 }

@@ -11,13 +11,33 @@ namespace Aula02
 {
     class Program
     {
+        static void ImprimirConta(Conta conta, string titulo = null)
+        {
+            Console.Clear();
+            Console.WriteLine("--------------------------------------");
+            if (!string.IsNullOrEmpty(titulo))
+            {
+                Console.WriteLine(titulo.ToUpper());
+                Console.WriteLine("--------------------------------------");
+            }
+
+            string tipoConta = default(string);
+            if (conta.GetType() == typeof(ContaCorrente))
+            {
+                tipoConta = "Corrente";
+            }
+            else if (conta is ContaPoupanca)
+            {
+                tipoConta = "Poupança";
+            }
+
+            Console.WriteLine($" Conta {tipoConta} Agencia: {conta.Agencia} \tConta: {conta.Numero}");
+            Console.WriteLine("--------------------------------------");
+        }
+
         static void ImprimirExtrato(Conta c)
         {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("----------IMPRIMINDO EXTRATO----------");
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine($"Agencia: {c.Agencia} \tConta: {c.Numero}");
-            Console.WriteLine("--------------------------------------");
+            ImprimirConta(c, "Imprimir Extrato");
 
             Item[] extrato = c.ObterExtrato();
 
@@ -53,14 +73,12 @@ namespace Aula02
 
             Console.WriteLine(" \t 1 - Criar nova conta");
             Console.WriteLine(" \t 2 - Selecionar conta");
+            Console.WriteLine(" \t 3 - Movimentar contas");
         }
 
         static void ExibirMenuDaConta(Conta conta)
         {
-            Console.Clear();
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine($"Agencia: {conta.Agencia} \tConta: {conta.Numero}");
-            Console.WriteLine("--------------------------------------");
+            ImprimirConta(conta, "Selecione a opção");
 
             Console.WriteLine(" \t 0 - Sair");
             Console.WriteLine(" \t 1 - Exibir Saldo");
@@ -74,7 +92,7 @@ namespace Aula02
         {
             Console.Clear();
             Console.WriteLine("--------------------------------------");
-            Console.WriteLine($"\t NOVA CONTA CORRENTE");
+            Console.WriteLine($"   \t NOVA CONTA CORRENTE");
             Console.WriteLine("--------------------------------------");
 
             int agencia, conta;
@@ -96,19 +114,59 @@ namespace Aula02
 
         }
 
+        public static Conta ObterConta()
+        {
+
+            Console.Clear();
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine($"   \tSELECIONAR CONTA");
+            Console.WriteLine("--------------------------------------");
+
+            Console.Write("Informe a agencia: ");
+            int agencia = int.Parse(Console.ReadLine());
+
+            Console.Write("Informe a conta: ");
+            int numero = int.Parse(Console.ReadLine());
+
+            var conta = RepositorioDeContas.Obter(x => x.Agencia == agencia && x.Numero == numero);
+
+            return conta;
+
+        }
+
+        static void Sacar(Conta conta)
+        {
+            ImprimirConta(conta, "Saque");
+
+            Console.Write("Informe o valor: ");
+            decimal valor = decimal.Parse(Console.ReadLine());
+
+            conta.Sacar(valor);
+        }
+
+        static void Depositar(Conta conta)
+        {
+            ImprimirConta(conta, "Deposito");
+
+            Console.Write("Informe o valor: ");
+            decimal valor = decimal.Parse(Console.ReadLine());
+
+            conta.Depositar(valor);
+        }
+
         static RepositorioBase<Conta> RepositorioDeContas = new RepositorioBase<Conta>();
 
         static void Main(string[] args)
         {
 
-            RepositorioDeContas.Salvar(new ContaCorrente(1, 1) { Saldo = 10 });
-            RepositorioDeContas.Salvar(new ContaCorrente(1, 2) { Saldo = 70 });
-            RepositorioDeContas.Salvar(new ContaCorrente(1, 3) { Saldo = 100 });
-            RepositorioDeContas.Salvar(new ContaCorrente(1, 4) { Saldo = 150 });
+            //RepositorioDeContas.Salvar(new ContaCorrente(1, 1) { Saldo = 10 });
+            //RepositorioDeContas.Salvar(new ContaCorrente(1, 2) { Saldo = 70 });
+            //RepositorioDeContas.Salvar(new ContaCorrente(1, 3) { Saldo = 100 });
+            //RepositorioDeContas.Salvar(new ContaCorrente(1, 4) { Saldo = 150 });
 
             //Func<Conta, bool> filtro = (c) => c.Numero == 3;
 
-            var conta = RepositorioDeContas.Obter((c) => c.Numero == 3 && c.Agencia == 1);
+            //var conta = RepositorioDeContas.Obter((c) => c.Numero == 3 && c.Agencia == 1);
 
             //EXEMPLO
             //Func<Conta, bool> filtro = (conta) =>
@@ -120,6 +178,18 @@ namespace Aula02
 
             //Action<Conta> movimentar = (conta) => conta.Movimentar();
 
+            for (int i = 1; i <= 10; i++)
+            {
+                var conta = new ContaCorrente(1, i);
+                conta.Depositar(1000m);
+
+                RepositorioDeContas.Salvar(conta);
+
+                var contaPoupanca = new ContaPoupanca(2, i);
+                contaPoupanca.Depositar(1000m);
+
+                RepositorioDeContas.Salvar(contaPoupanca);
+            }
 
 
             int op;
@@ -136,79 +206,72 @@ namespace Aula02
                         break;
 
                     case 2:
+                        var conta = ObterConta();
+
+                        if (conta == null)
+                        {
+                            Console.WriteLine("Conta Inexistente!");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            ExibirMenuDaConta(conta);
+                            int opcaoConta;
+                            do
+                            {
+                                ExibirMenuDaConta(conta);
+
+                                Console.Write("Informe a opção: ");
+                                opcaoConta = int.Parse(Console.ReadLine());
+
+                                switch (opcaoConta)
+                                {
+                                    case 1:
+                                        //exibir saldo
+
+                                        ImprimirConta(conta, "Saldo");
+                                        Console.WriteLine("Saldo Atual: {0}", conta.Saldo.ToString("C2"));
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 2:
+                                        //exibir extrato
+
+                                        ImprimirExtrato(conta);
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 3:
+                                        // saque
+
+                                        Sacar(conta);
+
+                                        break;
+                                    case 4:
+                                        // deposito
+
+                                        Depositar(conta);
+
+                                        break;
+                                }
+                            } while (opcaoConta != 0);
+                        }
+                        break;
+
+                    case 3:
+
+                        var contas = RepositorioDeContas.Obter();
+
+                        foreach (var c in contas)
+                        {
+                            c.Movimentar();
+                        }
+                        Console.WriteLine("Contas movimentadas com sucesso!");
+                        Console.ReadKey();
+
                         break;
                 }
-
-
             } while (op != 0);
-
-
-            
-            
-            
-            
-            
-            
-            /// EXEMPLOS ANTERIORES
-            /*                       
-            Conta c = new ContaCorrente(1010,2020);
-            c.Depositar(100m);
-            c.Sacar(30m);
-            c.Depositar(150m);
-            c.Sacar(10m);
-
-            RepositorioDeContas.Salvar(c);
-
-            ImprimirExtrato(c);*/
-
-            //int i = 10;
-            //Console.WriteLine("Input a number: ");
-            //int n = int.Parse(Console.ReadLine());
-
-            /*
-            int[] numbers = { 1, 2, 3, 4, 5 };
-
-            string a = "Letra A";
-            string b = "Letra B";
-            string c = a + b;
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Vinicius");
-            sb.Append(" ");
-            sb.Append("Bazanelli");
-            sb.Insert(0, "Sr. ");
-
-            Console.WriteLine(sb.ToString());
-
-            var name = "Felipe Oriani";
-            var x = name.Split(' ');
-            var y = string.Join(";", x);
-            var z = name.Replace(" ", "\"");
-
-            Console.WriteLine(y);
-            Console.WriteLine(z);
-
-            try
-            {
-                Bomba(120);
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                Console.WriteLine("Indice fora do array.");
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.WriteLine($"Parâmetro {e.ParamName}: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                //throw;
-            }
-
-            Console.ReadKey();
-            
-            */
         }
     }
 }

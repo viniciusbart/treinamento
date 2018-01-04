@@ -47,7 +47,7 @@ namespace Aula02.Model
 
         public override void Movimentar()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
