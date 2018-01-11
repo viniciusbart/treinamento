@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Aula02.Model;
 using Aula02.Data;
+using Aula02.Extensions;
 
 namespace Aula02
 {
@@ -177,6 +178,24 @@ namespace Aula02
             //};
 
             //Action<Conta> movimentar = (conta) => conta.Movimentar();
+
+            //string a = "Felipe Oriane";
+            //string b = a.RemoveSpaces();
+
+            int[] inteiros = { 9, 2, 4, 5, 6, 3, 7, 8, 1, 0 };
+
+            IEnumerable<int> query = from i in inteiros
+                                     let p = i % 2
+                                     let result = i * 3
+                                     orderby result
+                                     where (p == 0)
+                                     select result;
+
+            foreach (var valor in query)
+            {
+                Console.WriteLine(valor);
+            }
+            
 
             for (int i = 1; i <= 10; i++)
             {
