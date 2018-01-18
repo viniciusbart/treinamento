@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AC53A33F-E49C-4883-9F0C-6EA6E03C2878}</ProjectGuid>
+    <ProjectGuid>{F81B98A1-AA16-4746-9A32-45414344D83A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataAccessCourse</RootNamespace>
-    <AssemblyName>DataAccessCourse</AssemblyName>
+    <RootNamespace>GAtec.Northwind.ConsoleApp</RootNamespace>
+    <AssemblyName>GAtec.Northwind.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +48,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GAtec.Northwind.Business\GAtec.Northwind.Business.csproj">
+      <Project>{54997d07-8a1c-4cb0-a45c-bebef6671f6f}</Project>
+      <Name>GAtec.Northwind.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GAtec.Northwind.Data\GAtec.Northwind.Data.csproj">
+      <Project>{76bce689-2e85-4560-a8eb-9f9bb56e48e6}</Project>
+      <Name>GAtec.Northwind.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GAtec.Northwind.Domain\GAtec.Northwind.Domain.csproj">
+      <Project>{f8239d82-4b22-44d0-bfd5-8b08d9120a41}</Project>
+      <Name>GAtec.Northwind.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

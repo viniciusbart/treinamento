@@ -4,14 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace DataAccessCourse
 {
     class Program
     {
+        private static string providerName = ConfigurationManager.ConnectionStrings["Northwind"].ProviderName;
+        private static string ConnectionString = ConfigurationManager.ConnectionStrings["Northwind"].ConnectionString;
 
-        static string ConnectionString = @"Server=localhost;Database=NORTHWND;Trusted_Connection=True;";
+        public static DataSet ExecuteDataSet(string sql)
+        {
+            var ds = new DataSet();
+
+            var factory = DbProviderFactories.GetFactory(providerName);
+
+            using (var conexao = factory.CreateConnection())
+            {
+                conexao.ConnectionString = ConnectionString;
+                conexao.Open();
+
+                using (var comando = conexao.CreateCommand())
+                {
+                    comando.CommandText = sql;
+                    using (var adapter = factory.CreateDataAdapter())
+                    {
+                        adapter.SelectCommand = comando;
+                        adapter.Fill(ds);
+                    }
+                }
+            }
+
+            return ds;
+        }
 
         public static DataSet GetDataSet(string sql)
         {
@@ -27,7 +54,7 @@ namespace DataAccessCourse
             return ds;
         }
 
-        static void Main(string[] args)
+        public static void Aula1()
         {
             var ordersDataSet = GetDataSet("select * from Orders");
 
@@ -75,6 +102,7 @@ namespace DataAccessCourse
 
                 using (var contagem = new SqlCommand("select count(*) from categories", conexao))
                 {
+                    //ExecuteScalar PEGA APENAS A PRIMEIRA LINHA E PRIMEIRA COLUNA.
                     var total = (int)contagem.ExecuteScalar();
 
                     Console.WriteLine("Total: " + total);
@@ -118,8 +146,33 @@ namespace DataAccessCourse
 
                 conexao.Close();
             }
-            Console.ReadLine();
+        }
 
+        static void PrintProviders()
+        {
+            var factoriesDataTable = DbProviderFactories.GetFactoryClasses();
+
+            foreach (DataRow row in factoriesDataTable.Rows)
+            {
+                Console.WriteLine($"{row["name"]} - {row["InvariantName"]}");
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            var customersDataSet = ExecuteDataSet("select * from customers");
+
+            var customersTable = customersDataSet.Tables[0];
+
+            foreach (DataRow row in customersTable.Rows)
+            {
+                var contactName = row["ContactName"].ToString();
+                //var contactTitle = row["ContactTitle"].ToString();
+
+                Console.WriteLine($"{contactName} - {row["ContactTitle"]}");
+            }
+
+            Console.ReadLine();
         }
     }
 }
