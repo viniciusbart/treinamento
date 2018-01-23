@@ -62,6 +62,10 @@
       <Project>{f8239d82-4b22-44d0-bfd5-8b08d9120a41}</Project>
       <Name>GAtec.Northwind.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gatec.Northwind.Util\GAtec.Northwind.Util.csproj">
+      <Project>{5572485c-e965-4c0e-933d-a3052b666797}</Project>
+      <Name>GAtec.Northwind.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,6 +16,6 @@ namespace GAtec.Northwind.Domain.Repository
 
         T Get(object id);
 
-        IEnumerable<T>
+        IEnumerable<T> GetAll();
     }
 }

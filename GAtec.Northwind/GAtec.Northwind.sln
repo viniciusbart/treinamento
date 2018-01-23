@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{863E90AA-E4F4-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAtec.Northwind.ConsoleApp", "GAtec.Northwind.ConsoleApp\GAtec.Northwind.ConsoleApp.csproj", "{F81B98A1-AA16-4746-9A32-45414344D83A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAtec.Northwind.Util", "Gatec.Northwind.Util\GAtec.Northwind.Util.csproj", "{5572485C-E965-4C0E-933D-A3052B666797}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{F81B98A1-AA16-4746-9A32-45414344D83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F81B98A1-AA16-4746-9A32-45414344D83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F81B98A1-AA16-4746-9A32-45414344D83A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5572485C-E965-4C0E-933D-A3052B666797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5572485C-E965-4C0E-933D-A3052B666797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5572485C-E965-4C0E-933D-A3052B666797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5572485C-E965-4C0E-933D-A3052B666797}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
