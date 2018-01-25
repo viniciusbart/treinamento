@@ -23,6 +23,12 @@ namespace GAtec.Northwind.ConsoleApp
             // Define a service and inject (manually) the dependency from ICategoryRepository
             var categoryService = new CategoryService(categoryRepository);
 
+            var categories = categoryService.GetCategories();
+            foreach (var c in categories)
+            {
+                Console.WriteLine($"{c.Id} - {c.Name} - {c.Description}");
+            }
+
             // create a new category
             var category = new Category
             {
@@ -32,6 +38,17 @@ namespace GAtec.Northwind.ConsoleApp
 
             // call the Add method from category service
             categoryService.Add(category);
+
+            if (categoryService.Validation.Any())
+            {
+                foreach (var item in categoryService.Validation)
+                {
+                    Console.WriteLine($"{item.Key} - {item.Value}");
+
+                }
+            }
+
+            Console.ReadKey();
 
         }
     }
